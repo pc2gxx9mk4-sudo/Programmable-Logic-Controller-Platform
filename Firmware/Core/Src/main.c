@@ -21,7 +21,6 @@
 #include "cmsis_os.h"
 #include "usart.h"
 #include "gpio.h"
-#include "led_task.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -94,7 +93,7 @@ int main(void)
   MX_GPIO_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
-  TaskCreate_LEDTask();
+
   /* USER CODE END 2 */
 
   /* Init scheduler */
