@@ -21,11 +21,10 @@
 #include "cmsis_os.h"
 #include "usart.h"
 #include "gpio.h"
-#include "led_task.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "led_task.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
