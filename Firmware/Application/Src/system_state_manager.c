@@ -18,7 +18,7 @@ static SystemState_t systemCurrentState = SYSTEM_STATE_BOOT;
  */
 bool SystemStateManager_Init(void)
 {
-	systemCurrentState = SYSTEM_STATE_STOPPED;
+	systemCurrentState = SYSTEM_STATE_INIT;
 
 	return true;
 }
@@ -123,4 +123,16 @@ bool SystemStateManager_IsOutputAllowed(void)
 SystemState_t SystemStateManager_GetState(void)
 {
 	return systemCurrentState;
+}
+
+bool SystemStateManager_CompleteInitialization(void)
+{
+	if (systemCurrentState == SYSTEM_STATE_INIT){
+		systemCurrentState = SYSTEM_STATE_STOPPED;
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }

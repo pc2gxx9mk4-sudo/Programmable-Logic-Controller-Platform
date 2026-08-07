@@ -31,4 +31,5 @@ bool SystemStateManager_IsOutputAllowed(void);
 
 SystemState_t SystemStateManager_GetState(void);
 
+bool SystemStateManager_CompleteInitialization(void);
 #endif /* INC_SYSTEM_STATE_MANAGER_H_ */
