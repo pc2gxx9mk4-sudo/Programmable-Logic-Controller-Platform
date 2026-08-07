@@ -94,7 +94,10 @@ int main(void)
   MX_GPIO_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
-  TaskCreate_LEDTask();
+  SystemStateManager_Init();
+
+  if (! TaskCreate_LEDTask()) { Error_Handler();}
+
   osKernelInitialize();
 
   SystemStateManager_CompleteInitialization();

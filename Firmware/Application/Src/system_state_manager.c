@@ -18,9 +18,14 @@ static SystemState_t systemCurrentState = SYSTEM_STATE_BOOT;
  */
 bool SystemStateManager_Init(void)
 {
-	systemCurrentState = SYSTEM_STATE_INIT;
-
-	return true;
+	if (systemCurrentState == SYSTEM_STATE_BOOT){
+		systemCurrentState = SYSTEM_STATE_INIT;
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 /**
