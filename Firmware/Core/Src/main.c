@@ -21,6 +21,7 @@
 #include "cmsis_os.h"
 #include "usart.h"
 #include "gpio.h"
+#include "led_task.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -58,24 +59,7 @@ void MX_FREERTOS_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-/**
-  * @brief The heartbeat task.
-  */
-void LED_Task(void *pvParameters)
-{
-	  (void)pvParameters;
 
-	  TickType_t xLastWakeTime = xTaskGetTickCount();
-
-	  for(;;){
-		  HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
-
-		  vTaskDelayUntil(
-				  &xLastWakeTime,
-				  pdMS_TO_TICKS(1000U)
-		  );
-	 }
-}
 /* USER CODE END 0 */
 
 /**
@@ -110,7 +94,7 @@ int main(void)
   MX_GPIO_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
-  xTaskCreate(LED_Task, "LED_Task", 128, NULL, 1, NULL);
+  TaskCreate_LEDTask();
   /* USER CODE END 2 */
 
   /* Init scheduler */
