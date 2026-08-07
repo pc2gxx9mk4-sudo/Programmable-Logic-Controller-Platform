@@ -1,66 +1,72 @@
-/*
- * plc_command.h
- *
- *  Created on: Aug 7, 2026
- *      Author: ericlin
- */
+/**
+  ******************************************************************************
+  * @file    plc_command.h
+  * @brief   Transport-independent PLC command model.
+  ******************************************************************************
+  */
 
-#ifndef INC_PLC_COMMAND_H_
-#define INC_PLC_COMMAND_H_
+#ifndef APPLICATION_PLC_COMMAND_H_
+#define APPLICATION_PLC_COMMAND_H_
 
 #include <stdint.h>
-#include <stddef.h>
 
 typedef enum
 {
-	UNKNOWN = 0,
-	CAN,
-	UART,
-	INTERNAL
-
+  PLC_COMMAND_SOURCE_UNKNOWN = 0,
+  PLC_COMMAND_SOURCE_CAN,
+  PLC_COMMAND_SOURCE_UART,
+  PLC_COMMAND_SOURCE_INTERNAL
 } PlcCommandSource_t;
 
 typedef enum
 {
-	NONE = 0,
-	RUN,
-	STOP,
-	CLEAR_FAULT,
-	GET_STATUS,
-	SET_PWM_DUTY
-
+  PLC_COMMAND_TYPE_NONE = 0,
+  PLC_COMMAND_TYPE_RUN,
+  PLC_COMMAND_TYPE_STOP,
+  PLC_COMMAND_TYPE_CLEAR_FAULT,
+  PLC_COMMAND_TYPE_GET_STATUS,
+  PLC_COMMAND_TYPE_SET_PWM_DUTY
 } PlcCommandType_t;
 
 typedef enum
 {
-	UNPROCESSED = 0,
-	OK,
-	INVALID_TYPE,
-	INVALID_ARGUMENT,
-	INVALID_STATE,
-	BUSY,
-	NOT_SUPPORTED
-
+  PLC_COMMAND_RESULT_UNPROCESSED = 0,
+  PLC_COMMAND_RESULT_OK,
+  PLC_COMMAND_RESULT_INVALID_TYPE,
+  PLC_COMMAND_RESULT_INVALID_ARGUMENT,
+  PLC_COMMAND_RESULT_INVALID_STATE,
+  PLC_COMMAND_RESULT_BUSY,
+  PLC_COMMAND_RESULT_NOT_SUPPORTED
 } PlcCommandResult_t;
-
-typedef union
-{
-	uint8_t channelID;
-	uint16_t duty;
-
-
-} PlcCommandPlayload_t;
 
 typedef struct
 {
-	PlcCommandType_t commandType;
-	PlcCommandSource_t commandSource;
+  uint8_t channelId;
+  uint16_t dutyPermille;
+} PlcCommandSetPwmDutyPayload_t;
 
-	uint32_t sequenceNumber;
-	PlcCommandPlayload_t playload;
+typedef union
+{
+  PlcCommandSetPwmDutyPayload_t setPwmDuty;
+} PlcCommandPayload_t;
 
-}PlcCommand_t;
+typedef struct
+{
+  PlcCommandType_t type;
+  PlcCommandSource_t source;
+  uint32_t sequenceNumber;
+  PlcCommandPayload_t payload;
+} PlcCommand_t;
 
-PlcCommandResult_t PlcCommand_Validate(const PlcCommand_t *pcommand);
+/**
+ * @brief Validate a transport-independent PLC command.
+ *
+ * This function validates only the command model. Hardware-dependent limits,
+ * such as the available PWM channel count, are checked by the target service.
+ *
+ * @param command Command to validate.
+ * @return PLC command validation result.
+ */
+PlcCommandResult_t PlcCommand_Validate(const PlcCommand_t *command);
 
-#endif /* INC_PLC_COMMAND_H_ */
+#endif /* APPLICATION_PLC_COMMAND_H_ */
