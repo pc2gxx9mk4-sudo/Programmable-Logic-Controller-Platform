@@ -9,6 +9,7 @@
 #define APPLICATION_PLC_COMMAND_H_
 
 #include <stdint.h>
+#include "system_state_manager.h"
 
 typedef enum
 {
@@ -57,6 +58,25 @@ typedef struct
   uint32_t sequenceNumber;
   PlcCommandPayload_t payload;
 } PlcCommand_t;
+
+typedef struct
+{
+  SystemState_t systemState;
+} PlcCommandGetStatusResponsePayload_t;
+
+typedef union
+{
+  PlcCommandGetStatusResponsePayload_t getStatus;
+} PlcCommandResponsePayload_t;
+
+typedef struct
+{
+  PlcCommandSource_t destination;
+  PlcCommandType_t commandType;
+  uint32_t sequenceNumber;
+  PlcCommandResult_t result;
+  PlcCommandResponsePayload_t payload;
+} PlcCommandResponse_t;
 
 /**
  * @brief Validate a transport-independent PLC command.
