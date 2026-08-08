@@ -26,6 +26,8 @@
 /* USER CODE BEGIN Includes */
 #include "led_task.h"
 #include "system_state_manager.h"
+#include "plc_command.h"
+#include "plc_command_task.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -96,7 +98,8 @@ int main(void)
   /* USER CODE BEGIN 2 */
   SystemStateManager_Init();
 
-  if (! TaskCreate_LEDTask()) { Error_Handler();}
+  if (TaskCreate_LEDTask() == pdFAIL) { Error_Handler();}
+  if (PlcCommandTask_Create() == pdFAIL) {Error_Handler();}
 
   osKernelInitialize();
 
@@ -105,7 +108,6 @@ int main(void)
 
  /* Call init function for freertos objects (in cmsis_os2.c) */
   MX_FREERTOS_Init();
-
   /* Start scheduler */
   osKernelStart();
 
